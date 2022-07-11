@@ -18,6 +18,10 @@ def detail(request, question_id):
 
 
 def results(request, question_id):
+    question = get_object_or_404(Question, pk=question_id)
+    return render(request, 'polls/results.html',{'question':question})
+
+def vote(request, question_id):
     question = get_object_or_404(Question, pk =question_id)
     try:
         selected_choice = question.choice_set.get(pk=request.POST['choice'])
@@ -34,7 +38,3 @@ def results(request, question_id):
         # with POST data. This prevents data from being posted twice if a
         # user hits the Back button.
         return HttpResponseRedirect(reverse('polls:results', args=(question.id,)))
-
-
-def vote(request, question_id):
-    return HttpResponse("You're voting on question %s." % question_id)
